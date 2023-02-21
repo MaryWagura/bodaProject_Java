@@ -18,38 +18,33 @@ import java.util.Optional;
 
 public class BodaController {
 
-    @GetMapping("/get")
-    public ResponseEntity<UserModel> get()
-    {
-        UserModel model = new UserModel();
-         model.getId();
-         model.getIdnumber();
-         model.getNumberplate();
-         model.getPhonenumber();
-         model.getPaymentplan();
+    @Autowired
+    private BodaRepository bodaRepository;
 
-         HttpHeaders headers =  new HttpHeaders();
-         ResponseEntity<UserModel> userModel = new ResponseEntity<>(model,headers,HttpStatus.CREATED);
-         return userModel;
+    @GetMapping
+    public List<UserModel> findAllUsers()
+    {
+        return (List<UserModel>) bodaRepository.findAll();
     }
 
-    @GetMapping("get/{id}")
-    //class
-    public ResponseEntity<UserModel> getById(@PathVariable("id") String id)
+    @GetMapping("/{id}")
+
+    public ResponseEntity<UserModel>findUserById(@PathVariable (value="id") long id)
     {
-        UserModel model = new UserModel();
-        model.getId();
-        model.getIdnumber();
-        model.getNumberplate();
-        model.getPhonenumber();
-        model.getPaymentplan();
-
-        HttpHeaders headers =  new HttpHeaders();
-        ResponseEntity<UserModel> userModel = new ResponseEntity<>(model,headers,HttpStatus.CREATED);
-        return userModel;
-
+        Optional<UserModel> user = bodaRepository.findById(id);
+        if(user.isPresent())
+        {
+            return ResponseEntity.ok().body(user.get());
+        }else
+        {
+            return ResponseEntity.notFound().build();
+        }
     }
 
-
+    @PostMapping
+    public UserModel saveUser(@Validated @RequestBody UserModel user)
+    {
+        return bodaRepository.save(user);
+    }
 
 }
