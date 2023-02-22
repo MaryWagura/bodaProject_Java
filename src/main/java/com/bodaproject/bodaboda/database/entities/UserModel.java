@@ -7,6 +7,12 @@ import lombok.Data;
 
 @Table(name="ownerdetails")
 public class UserModel {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+
+
+    private long id;
     public long getId() {
         return id;
     }
@@ -15,9 +21,7 @@ public class UserModel {
         this.id = id;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private String numberplate;
 
     public String getNumberplate() {
         return numberplate;
@@ -27,8 +31,8 @@ public class UserModel {
         this.numberplate = numberplate;
     }
 
-    private String numberplate;
 
+    private long idnumber;
     public long getIdnumber() {
         return idnumber;
     }
@@ -37,8 +41,8 @@ public class UserModel {
         this.idnumber = idnumber;
     }
 
-    private long idnumber;
 
+    private long phonenumber;
     public long getPhonenumber() {
         return phonenumber;
     }
@@ -47,7 +51,7 @@ public class UserModel {
         this.phonenumber = phonenumber;
     }
 
-    private long phonenumber;
+    private long paymentplan;
 
     public long getPaymentplan() {
         return paymentplan;
@@ -57,7 +61,7 @@ public class UserModel {
         this.paymentplan = paymentplan;
     }
 
-    private long paymentplan;
+
 
 
 
