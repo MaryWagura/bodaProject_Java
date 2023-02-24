@@ -4,18 +4,23 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import com.bodaproject.bodaboda.database.entities.UserModel;
+
 import java.util.Map;
 
 @Service
 public class BodaService {
-        Logger logger = LogManager.getLogger(BodaService.class);
+
+
+
+    Logger logger = LogManager.getLogger(BodaService.class);
     String header = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" +
             "<!DOCTYPE pages SYSTEM \"cellflash-1.3.dtd\">\n" +
             "<pages>";
     String footer = "</pages>";
 
     public String home() {
-        return header + "<page> \n" +
+        return header + "<page>\n" +
                 "Welcome to BodaBoda Tax Services<br/>\n" +
                 "<a href=\"ussd/1\">Pay Tax</a><br/>\n" +
                 "<a href=\"ussd/2\">Compliance Certiticate</a><br/>\n" +
@@ -23,7 +28,7 @@ public class BodaService {
     }
 
     public String page1() {
-        String content = "<page> \n" +
+        String content = "<page>\n" +
                 "Input " +
                 "<form action=\"/tkl/ussd/input\">\n" +
                 "<entry kind=\"digits\" var=\"numberplate\">\n" +
@@ -34,7 +39,7 @@ public class BodaService {
         return header + content + footer;
     }
     public String page2() {
-        String content = "<page> \n" +
+        String content = "<page>\n" +
                 "Input " +
                 "<form action=\"/tkl/ussd/input\">\n" +
                 "<entry kind=\"digits\" var=\"cert\">\n" +
@@ -45,11 +50,77 @@ public class BodaService {
         return header + content + footer;
     }
 
-    public void processInput(Map<String,String> input){
-        if(input.containsKey("numberplate")) {
-            logger.info(input.get("numberplate"));
-        } else {
-            logger.info(input.get("idnumber"));
-        }
+    public String page3() {
+        String content = "<page>\n" +
+                "Input " +
+                "<form action=\"/tkl/ussd/input\">\n" +
+                "<entry kind=\"digits\" var=\"idnumber\">\n" +
+                "<prompt>Your ID number</prompt> " +
+                "</entry>" +
+                "</form>" +
+                "</page>";
+        return header + content + footer;
     }
+    public String page4() {
+        String content = "<page>\n" +
+                "Choose a payment plan below:<br/>\n" +
+                "<a href=\"/tkl/ussd/payplan/1\">Daily</a><br/>\n" +
+                "<a href=\"/tkl/ussd/payplan/2\">Weekly</a><br/>\n" +
+                "<a href=\"/tkl/ussd/payplan/3\">Monthly</a><br/>\n" +
+                "</page>";
+
+        return header + content + footer;
+    }
+
+    public String page5()
+    {
+        String content = "<page>\n" +
+                "Do you wish to pay with the current number? <br/>\n" +
+                "<a href=\"/tkl/ussd/pay/1\">Yes</a><br/>\n" +
+                "<a href=\"/tkl/ussd/pay/2\">No</a><br/>\n" +
+                "</page>";
+        return header + content + footer;
+    }
+    public String page6()
+    {
+        String content= "<page>\n" +
+                "Pay(amount set) stk Push\n" +
+                "</page>";
+        return header + content + footer;
+    }
+    public String page7()
+    {
+        String content="<page> \n" +
+                "Input \n" +
+                "<form action=\"/tkl/ussd/input\">\n" +
+                "<entry kind=\"digits\" var=\"number\">\n" +
+                "<prompt>the number to pay:</prompt>\n" +
+                "</entry>\n" +
+                "</form>\n" +
+                "</page>";
+        return header + content + footer;
+    }
+
+
+    public String processInput(Map<String,String> input) {
+        String page;
+        if(input.containsKey("numberplate"))
+        {
+            logger.info(input.get("numberplate"));
+            page = page3();
+        } else if (input.containsKey("idnumber"))
+        {
+            logger.info(input.get("idnumber"));
+            page = page4();
+        } else if (input.containsKey("number")) {
+            logger.info(input.get("number"));
+            page = page6();
+        }
+        else
+        {
+            page="";
+        }
+        return  page;
+    }
+
 }

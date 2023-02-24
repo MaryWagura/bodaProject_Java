@@ -35,22 +35,6 @@ public class BodaController {
         return bodaService.home();
     }
 
-    @GetMapping(value = "/idnumber")
-    public String idnumber() {
-        String content = "<page> \n" +
-                "Input " +
-                "<form action=\"/tkl/ussd/idnumber.php\">\n" +
-                "<entry kind=\"digits\" var=\"numberplate\">\n" +
-                "<prompt>Your ID Number</prompt> " +
-                "</entry>" +
-                "</form>" +
-                "</page>";
-        return "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" +
-                "<!DOCTYPE pages SYSTEM \"cellflash-1.3.dtd\">\n" +
-                "<pages>" + content + "</pages>";
-    }
-
-
     @GetMapping("/{id}")
     public String findUserById(@PathVariable(value = "id") long id) {
         if (id==1) {
@@ -60,11 +44,36 @@ public class BodaController {
         }
         return null;
     }
+   @GetMapping("/payplan/{id}")
+   public String findPaymentPlan(@PathVariable(value = "id") long id)
+   {
+        if (id==1)
+        {
+           return bodaService.page5();
+       } else if (id==2) {
+           return bodaService.page5();
+       }else if (id==3) {
+           return bodaService.page5();
+       }
+       return null;
+   }
+    @GetMapping("/pay/{id}")
+    public String findPaymentNumber(@PathVariable(value = "id") long id)
+    {
+         if (id==1)
+        {
+            return bodaService.page6();
+        } else if (id==2) {
+            return bodaService.page7();
+        }
+        return null;
 
-    @GetMapping("/input")
+    }
+     @GetMapping("/input")
     public String captureInput(@RequestParam Map<String,String> inputparams) {
-        bodaService.processInput(inputparams);
-        return "";
+         return bodaService.processInput(inputparams);
+//             bodaService.page3();
+
     }
 
 
@@ -72,5 +81,7 @@ public class BodaController {
     public UserModel saveUser(@Validated @RequestBody UserModel user) {
         return bodaRepository.save(user);
     }
+
+
 
 }
