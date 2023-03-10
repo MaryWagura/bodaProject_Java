@@ -129,12 +129,14 @@ public class BodaService {
                     platesfromdb += "<a href=\"/tkl/ussd/numplate/" + userModel.getNumberplate() + "\"></a>\n" + userModel.getNumberplate() + "<br/>\n";
 
                 }
-                diffplate += "<a href=\"/tkl/ussd/plate\">add numberplate</a><br/>\n";
+                diffplate += "<a href=\"/tkl/ussd/plate\">Add numberplate</a><br/>\n";
                 String content = "<page>\n" +
                         "Select the numberplate you wish to pay for:<br/>\n"
                         + platesfromdb +
-                        diffplate +
                         "</page>";
+
+                     //   + diffplate +
+
                 return header + content + footer;
 
                 }
